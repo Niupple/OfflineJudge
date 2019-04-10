@@ -141,6 +141,7 @@ class Feeder:
         '''
         start all programs at the same time, all programs will be running parallelly
         '''
+        # print("startall")
         ro = self.runningOption
         ipt = self.getStdin()
         opt = self.getStdout()
@@ -148,13 +149,17 @@ class Feeder:
         # initialize parameters for this IO mode
         if self.inputMode == Feeder.IM_TIMED_STRING:
             timers = self.getInputTimers()
-
+        print("input timers got")
         # run all programs
+        print(self.names)
         for name in self.names:
+            print(name)
             if self.outputMode == Feeder.OM_CLASSIC:
-                ro = self.runningOption + ["1>" + self.output[name]]
+                ro = self.runningOption[name]
+                opt = open(self.output[name], "w")
             else:
-                ro = self.runningOption
+                ro = self.runningOption[name]
+            print(ro)
             p = sp.Popen(ro, stdin = ipt, stdout = opt)
             self.programs[name] = p
         startTime = time.time()
